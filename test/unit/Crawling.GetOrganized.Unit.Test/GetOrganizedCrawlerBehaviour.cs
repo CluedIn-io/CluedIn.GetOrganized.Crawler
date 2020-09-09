@@ -3,7 +3,7 @@ using CluedIn.Crawling;
 using CluedIn.Crawling.GetOrganized;
 using CluedIn.Crawling.GetOrganized.Infrastructure.Factories;
 using Moq;
-using Should;
+using Shouldly;
 using Xunit;
 
 namespace Crawling.GetOrganized.Unit.Test

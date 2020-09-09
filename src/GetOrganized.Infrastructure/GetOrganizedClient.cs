@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -18,11 +19,11 @@ namespace CluedIn.Crawling.GetOrganized.Infrastructure
     {
         private const string BaseUri = "http://sample.com";
 
-        private readonly ILogger log;
+        private readonly ILogger<GetOrganizedClient> log;
 
         private readonly IRestClient client;
 
-        public GetOrganizedClient(ILogger log, GetOrganizedCrawlJobData getorganizedCrawlJobData, IRestClient client) // TODO: pass on any extra dependencies
+        public GetOrganizedClient(ILogger<GetOrganizedClient> log, GetOrganizedCrawlJobData getorganizedCrawlJobData, IRestClient client) // TODO: pass on any extra dependencies
         {
             if (getorganizedCrawlJobData == null)
             {
@@ -51,7 +52,7 @@ namespace CluedIn.Crawling.GetOrganized.Infrastructure
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 var diagnosticMessage = $"Request to {client.BaseUrl}{url} failed, response {response.ErrorMessage} ({response.StatusCode})";
-                log.Error(() => diagnosticMessage);
+                log.LogError(diagnosticMessage);
                 throw new InvalidOperationException($"Communication to jsonplaceholder unavailable. {diagnosticMessage}");
             }
 

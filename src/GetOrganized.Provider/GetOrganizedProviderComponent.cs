@@ -1,3 +1,4 @@
+using CluedIn.Core.Server;
 using Castle.MicroKernel.Registration;
 
 using CluedIn.Core;
@@ -12,7 +13,7 @@ using ComponentHost;
 namespace CluedIn.Provider.GetOrganized
 {
     [Component(GetOrganizedConstants.ProviderName, "Providers", ComponentType.Service, ServerComponents.ProviderWebApi, Components.Server, Components.DataStores, Isolation = ComponentIsolation.NotIsolated)]
-    public sealed class GetOrganizedProviderComponent : ServiceApplicationComponent<EmbeddedServer>
+    public sealed class GetOrganizedProviderComponent : ServiceApplicationComponent<IBusServer>
     {
         public GetOrganizedProviderComponent(ComponentInfo componentInfo)
             : base(componentInfo)
@@ -26,8 +27,8 @@ namespace CluedIn.Provider.GetOrganized
         {
             Container.Install(new InstallComponents());
 
-            Container.Register(Types.FromThisAssembly().BasedOn<IProvider>().WithServiceFromInterface().If(t => !t.IsAbstract).LifestyleSingleton());
-            Container.Register(Types.FromThisAssembly().BasedOn<IEntityActionBuilder>().WithServiceFromInterface().If(t => !t.IsAbstract).LifestyleSingleton());
+            Container.Register(Types.FromAssembly(System.Reflection.Assembly.GetExecutingAssembly()).BasedOn<IProvider>().WithServiceFromInterface().If(t => !t.IsAbstract).LifestyleSingleton());
+            Container.Register(Types.FromAssembly(System.Reflection.Assembly.GetExecutingAssembly()).BasedOn<IEntityActionBuilder>().WithServiceFromInterface().If(t => !t.IsAbstract).LifestyleSingleton());
 
 
 
